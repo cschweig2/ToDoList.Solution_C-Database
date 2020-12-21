@@ -22,7 +22,7 @@ namespace ToDoList.Models
     public static List<Item> GetAll()
     {
       List<Item> allItems = new List<Item> { };
-      MySqlConnection conn = DB.Connectionn();
+      MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"SELECT * FROM items;";
@@ -45,7 +45,16 @@ namespace ToDoList.Models
 
     public static void ClearAll()
     {
-      // empty for now
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM items;";
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+      conn.Dispose();
+      }
     }
 
     public static Item Find(int searchId)
